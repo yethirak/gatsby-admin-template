@@ -24,7 +24,7 @@ pipeline {
         }
         stage('kube deploy') {
             steps {
-                sh 'kubectl delete -n react-projects -f deployment.yaml && kubectl apply -n react-projects -f deployment.yaml'
+                sh 'kubectl apply -n react-projects -f deployment.yaml'
             }
         }
     }
