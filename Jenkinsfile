@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout source') {
             steps {
-                git branch: 'main', url: 'https://github.com/yethirak/gatsby-admin-template.git'
+                git branch: 'master', url: 'https://github.com/yethirak/gatsby-admin-template.git'
             }
         }
         stage('npm install and build') {
