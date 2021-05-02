@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name:  my-react-app1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: gatsby-admin-template
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gatsby-admin-template
-          image: localhost:5000/gatsby-admin-template:latest
+          image: localhost:5000/gatsby-admin-template:{{BUILD_NUMBER}}
           imagePullPolicy: Always
           ports:
             - containerPort: 80
