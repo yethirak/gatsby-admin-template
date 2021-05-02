@@ -23,12 +23,12 @@ pipeline {
         }
         stage('docker push') {
             steps {
-                sh 'docker push $registry:5000/$repo_name:$BUILD_NUMBER'
+                sh 'docker push $registry/$repo_name:$BUILD_NUMBER'
             }
         }
         stage('docker remove unwanted image') {
             steps {
-                sh 'docker rmi $registry:5000/$repo_name:$BUILD_NUMBER'
+                sh 'docker rmi $registry/$repo_name:$BUILD_NUMBER'
             }
         }
         stage('kube deploy') {
