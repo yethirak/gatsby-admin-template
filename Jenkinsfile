@@ -1,5 +1,9 @@
 pipeline {
     agent  { label 'jenkins-slave'}
+    environment {
+        registry = 'localhost:5000'
+        repo_name = 'gatsby-admin-template'
+    }
     
     stages {
         stage('Checkout source') {
@@ -14,17 +18,22 @@ pipeline {
         }
         stage('docker build') {
             steps {
-                sh 'docker build -t localhost:5000/gatsby-admin-template:latest .'
+                sh 'docker build -t $registry/$repo_name:$BUILD_NUMBER .'
             }
         }
         stage('docker push') {
             steps {
-                sh 'docker push localhost:5000/gatsby-admin-template:latest'
+                sh 'docker push $registry:5000/$repo_name:latest'
+            }
+        }
+        stage('docker remove unwanted image') {
+            steps {
+                sh 'docker rmi $registry:5000/$repo_name:latest'
             }
         }
         stage('kube deploy') {
             steps {
-                sh 'kubectl apply -n react-projects -f deployment.yaml'
+                sh 'cat deployment.yaml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -n react-projects -f -'
             }
         }
     }
